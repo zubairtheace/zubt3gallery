@@ -1,19 +1,17 @@
-import { db } from "~/server/db";
 import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import { getMyImages } from "~/server/db/queries";
 
 
 export const dynamic = "force-dynamic";
 
 async function Images() {
-  const images = await db.query.images.findMany({
-    orderBy: (model, { desc }) => desc(model.createdAt),
-  });
-
+  const images = await getMyImages();
+  
   return(
     <div className="flex flex-wrap gap-4">
-        {images.map((image, index) => (
+        {images.map((image) => (
           <div key={image.id} className="flex flex-col w-48">
-            <img src={image.url} alt="Gallery image" />
+            <img src={image.url}/>
             <div>{image.name}</div>
           </div>
         ))}
