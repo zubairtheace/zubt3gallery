@@ -1,6 +1,7 @@
 import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
-import { getMyImages } from "~/server/db/queries";
+import { getMyImages } from "~/server/queries";
 import Image from "next/image";
+import Link from 'next/link';
 
 
 export const dynamic = "force-dynamic";
@@ -12,13 +13,15 @@ async function Images() {
     <div className="flex flex-wrap gap-4 justify-center">
         {images.map((image) => (
           <div key={image.id} className="flex flex-col w-48 h-52">
-            <Image 
-              src={image.url} 
-              style={{ objectFit: "contain" }} 
-              width={480}
-              height={480}
-              alt={image.name} 
-            />
+            <Link href={`/img/${image.id}`}>
+              <Image 
+                src={image.url} 
+                style={{ objectFit: "contain" }} 
+                width={480}
+                height={480}
+                alt={image.name} 
+              />
+            </Link>
             <div>{image.name}</div>
           </div>
         ))}
